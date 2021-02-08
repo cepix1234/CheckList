@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckList.TaskSpecifics.Interface
+namespace CheckList.Notification.Interfaces
 {
-    public interface ITaskBase
+    public interface INotification
     {
         String title
         {
             get;
             set;
         }
-
-        Boolean finished
+        String text
         {
             get;
             set;
         }
+
     }
 }

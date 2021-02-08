@@ -7,16 +7,17 @@ using CheckList.DataProviders.Interfaces;
 
 namespace CheckList.DataProviders.Services
 {
-    class JsonDataSourceConfiguration : IDataSourceFileConfiguration
+    public class DataSourceFileConfiguration : IDataSourceFileConfiguration
     {
-        public JsonDataSourceConfiguration (String file)
+        public DataSourceFileConfiguration(string File)
         {
-            this.File = file;
+            this.File = File;
         }
 
-        public string File { 
+        public string File 
+        { 
             get; 
-            set;
+            set; 
         }
     }
 }

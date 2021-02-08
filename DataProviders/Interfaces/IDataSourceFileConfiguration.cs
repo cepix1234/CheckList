@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace CheckList.DataProviders.Interfaces
 {
-    interface IDataSourceFileConfiguration
+    public interface IDataSourceFileConfiguration
     {
         String File {
             get;
             set;
         }
-
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckList.DataProviders.Interfaces
 {
-    interface IDataProividerResultTasksBase : IDataProviderResultBase
+    public interface IDataProividerResultTasksBase : IDataProviderResultBase
     {
         ITaskGroup data
         {

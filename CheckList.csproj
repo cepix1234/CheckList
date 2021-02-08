@@ -53,9 +53,11 @@
     <Compile Include="DataProviders\Interfaces\IDataProividerResultTasksBase.cs" />
     <Compile Include="DataProviders\Interfaces\IDataProviderBase.cs" />
     <Compile Include="DataProviders\Interfaces\IDataProviderResultBase.cs" />
+    <Compile Include="DataProviders\Interfaces\IDataSourceConfiguration.cs" />
     <Compile Include="DataProviders\Interfaces\IDataSourceFileConfiguration.cs" />
     <Compile Include="DataProviders\Services\DataProviderResultTasks.cs" />
-    <Compile Include="DataProviders\Services\JsonDataSourceConfiguration.cs" />
+    <Compile Include="DataProviders\Services\DataSourceConfiguration.cs" />
+    <Compile Include="DataProviders\Services\DataSourceFileConfiguration.cs" />
     <Compile Include="DataProviders\Services\JsonProvider.cs" />
     <Compile Include="Forms\MainMenu.cs">
       <SubType>Form</SubType>
@@ -63,6 +65,11 @@
     <Compile Include="Forms\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Notification\Constants\NotificationConstants.cs" />
+    <Compile Include="Notification\Interfaces\INotification.cs" />
+    <Compile Include="Notification\Interfaces\INotificationType.cs" />
+    <Compile Include="Notification\Services\MessageBoxNotification.cs" />
+    <Compile Include="Notification\Services\NotificationContent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskSpecifics\Class\Task.cs" />

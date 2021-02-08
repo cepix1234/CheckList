@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckList.DataProviders.Interfaces
 {
-    interface IDataProviderResultBase
+    public interface IDataProviderResultBase
     {
         Boolean sucess
         {

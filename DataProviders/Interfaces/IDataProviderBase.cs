@@ -6,10 +6,10 @@ using CheckList.TaskSpecifics.Interface;
 
 namespace CheckList.DataProviders.Interfaces
 {
-    interface IDataProviderBase
+    public interface IDataProviderBase
     {
-        IDataProividerResultTasksBase GetData(IDataSourceFileConfiguration configuration);
+        IDataProividerResultTasksBase GetData(IDataSourceConfiguration configuration);
 
-        IDataProviderResultBase SetData(IDataSourceFileConfiguration configuration, ITaskBase data);
+        IDataProividerResultTasksBase SetData(IDataSourceConfiguration configuration, TaskSpecifics.Class.Task data, ITaskGroup tasks);
     }
 }

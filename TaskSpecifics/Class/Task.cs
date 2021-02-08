@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace CheckList.TaskSpecifics.Class
 {
-    class Task : ITaskBase
+    public class Task : ITaskBase
     {
+
+        public Task(String title, Boolean finished)
+        {
+            this.title = title;
+            this.finished = finished;
+        }
+
         public string title { 
             get; 
             set;
