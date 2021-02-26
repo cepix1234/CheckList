@@ -8,6 +8,7 @@ using CheckList.Notification.Services;
 using CheckList.Notification.Constants;
 using CheckList.TaskSpecifics.Interface;
 using CheckList.TasksManegement;
+using CheckList.DayFollower.Class;
 
 namespace CheckList
 {
@@ -17,7 +18,6 @@ namespace CheckList
         static INotificationType notificationService;
         static NotificationConstants notificationConstants;
         static TasksManager tasksManager;
-        static DataSourceFileConfiguration FileConfiguration = new DataSourceFileConfiguration("SavedFiles\\Tasks.json");
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -31,10 +31,10 @@ namespace CheckList
             dataProvider = InitializeDataprovider();
             notificationService = InitializeNotification();
             notificationConstants = new NotificationConstants();
-            tasksManager = new TasksManager(new DataSourceConfiguration(FileConfiguration), dataProvider, notificationService, notificationConstants);
+            tasksManager = InitializeTasksManager(dataProvider, notificationService, notificationConstants);
 
             // get all tasks.
-            ITaskGroup tasks = tasksManager.GetAllTasks(); ;
+            ITaskGroup tasks = tasksManager.GetAllTasks();
 
             // start the check list view.
             Application.Run(new CheckListApp(tasksManager, tasks));
@@ -53,6 +53,20 @@ namespace CheckList
                     throw new Exception("Not supported data provider type!");
             }
             return dataProvider;
+        }
+
+        static TasksManager InitializeTasksManager (IDataProviderBase dataProvider, INotificationType messageService, NotificationConstants notificationConstants)
+        {
+            string folderName = ConfigurationManager.AppSettings.Get("FileFolder");
+            string fileName = ConfigurationManager.AppSettings.Get("TasksFileName");
+            //string fileName = ConfigurationManager.AppSettings.Get("DayCoveredFileName");
+
+            return new TasksManager(
+                new DataSourceConfiguration(new DataSourceFileConfiguration($"{folderName}\\{fileName}")),
+                dataProvider,
+                messageService,
+                notificationConstants
+                );
         }
 
         static INotificationType InitializeNotification()

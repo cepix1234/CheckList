@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CheckList.DayFollower.Interfaces;
 using CheckList.TaskSpecifics.Interface;
 
 namespace CheckList.DataProviders.Interfaces
 {
     public interface IDataProviderBase
     {
-        IDataProividerResultTasksBase GetData(IDataSourceConfiguration configuration);
+        IDataProviderResultBase GetData(IDataSourceConfiguration configuration);
 
-        IDataProividerResultTasksBase SetData(IDataSourceConfiguration configuration, ITaskGroup tasks);
+        IDataProviderResultBase SetData(IDataSourceConfiguration configuration, ITaskGroup tasks);
+
+        IDataProviderResultBase SetData(IDataSourceConfiguration configuration, IDayFollowed tasks);
     }
 }

@@ -5,14 +5,28 @@ using CheckList.TaskSpecifics.Class;
 using CLTask = CheckList.TaskSpecifics.Class.Task;
 using CheckList.TaskSpecifics.Interface;
 using Newtonsoft.Json;
+using CheckList.DayFollower.Class;
+using CheckList.DayFollower.Interfaces;
 
 namespace CheckList.DataProviders.Services
 {
     class JsonProvider : IDataProviderBase
     {
-        public IDataProividerResultTasksBase GetData(IDataSourceConfiguration configuration)
+        public IDataProviderResultBase GetData(IDataSourceConfiguration configuration)
         {
+            // Try and get Tasks
+            IDataProividerResultTasksBase resultTask = getFileData(configuration);
+            if(resultTask.data.tasks == null)
+            {
+                IDataProividerResultDayBase resultDay = getDayData(configuration);
+                return resultDay;
+            }
 
+            return resultTask;
+        }
+
+        private IDataProividerResultTasksBase getFileData(IDataSourceConfiguration configuration)
+        {
             IDataProividerResultTasksBase result = new DataProviderResultTasks();
             IsConfigurationValid(configuration);
 
@@ -36,7 +50,36 @@ namespace CheckList.DataProviders.Services
             return result;
         }
 
-        public IDataProividerResultTasksBase SetData(IDataSourceConfiguration configuration, ITaskGroup tasks)
+        public IDataProividerResultDayBase getDayData(IDataSourceConfiguration configuration)
+        {
+
+            IDataProividerResultDayBase result = new DataProviderResultDay();
+            IsConfigurationValid(configuration);
+
+            try
+            {
+                using (StreamReader r = new StreamReader(configuration.File.File))
+                {
+                    string json = r.ReadToEnd();
+                    result.data = JsonConvert.DeserializeObject<DayFollowed>(json, new JsonSerializerSettings
+                    {
+                        DateFormatString = "yyyyMMddTHH:mm:ssZ"
+                    });
+                }
+            }
+            catch (Exception error)
+            {
+                result.sucess = false;
+                result.error = error.Message;
+                return result;
+            }
+
+            result.sucess = true;
+
+            return result;
+        }
+
+        public IDataProviderResultBase SetData(IDataSourceConfiguration configuration, ITaskGroup tasks)
         {
             IDataProividerResultTasksBase result = new DataProviderResultTasks();
             if (!configuration.IsValid())
@@ -74,6 +117,13 @@ namespace CheckList.DataProviders.Services
             }
             return result;
         }
+
+        public IDataProviderResultBase SetData(IDataSourceConfiguration configuration, IDayFollowed day)
+        {
+            IDataProividerResultDayBase result = WriteDayToFile(configuration, (DayFollowed)day);
+            return result;
+        }
+
         private IDataProividerResultTasksBase AddTaskToTasks(CLTask data, ITaskGroup tasks)
         {
             IDataProividerResultTasksBase result = new DataProviderResultTasks();
@@ -134,6 +184,28 @@ namespace CheckList.DataProviders.Services
                     r.Write(data);
                 }
                 result.data = tasks;
+            }
+            catch (Exception error)
+            {
+                result.sucess = false;
+                result.error = error.Message;
+            }
+            return result;
+        }
+
+        private IDataProividerResultDayBase WriteDayToFile(IDataSourceConfiguration configuration, DayFollowed day)
+        {
+            IDataProividerResultDayBase result = new DataProviderResultDay();
+            try
+            {
+                using (StreamWriter r = new StreamWriter(configuration.File.File))
+                {
+                    string data = JsonConvert.SerializeObject(day, new JsonSerializerSettings
+                    {
+                        DateFormatString = "yyyyMMddTHH:mm:ssZ"
+                    });
+                    r.Write(data);
+                }
             }
             catch (Exception error)
             {

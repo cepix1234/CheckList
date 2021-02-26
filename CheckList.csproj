@@ -50,15 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProviders\Interfaces\IDataProividerResultDayBase.cs" />
     <Compile Include="DataProviders\Interfaces\IDataProividerResultTasksBase.cs" />
     <Compile Include="DataProviders\Interfaces\IDataProviderBase.cs" />
     <Compile Include="DataProviders\Interfaces\IDataProviderResultBase.cs" />
     <Compile Include="DataProviders\Interfaces\IDataSourceConfiguration.cs" />
     <Compile Include="DataProviders\Interfaces\IDataSourceFileConfiguration.cs" />
+    <Compile Include="DataProviders\Services\DataProviderResultDay.cs" />
     <Compile Include="DataProviders\Services\DataProviderResultTasks.cs" />
     <Compile Include="DataProviders\Services\DataSourceConfiguration.cs" />
     <Compile Include="DataProviders\Services\DataSourceFileConfiguration.cs" />
     <Compile Include="DataProviders\Services\JsonProvider.cs" />
+    <Compile Include="DayFollower\Class\DayFollowed.cs" />
+    <Compile Include="DayFollower\Interfaces\IDayFollowed.cs" />
+    <Compile Include="DayFollower\Services\DayFollower.cs" />
     <Compile Include="Forms\CheckListApp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +104,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SavedFiles\DayCovered.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SavedFiles\Tasks.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

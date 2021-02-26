@@ -22,35 +22,6 @@ namespace CheckList
             RefreshTasksListDataGridRows();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            tasks.SetData(tasksManager.GetAllTasks());
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            string taskName = "TestTask";
-            bool taskComplete = false;
-
-            tasks.SetData(tasksManager.AddTask(new CLTask(taskName, taskComplete), tasks));
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            string taskName = "TestTask";
-            bool taskComplete = true;
-
-            tasks.SetData(tasksManager.SetTask(new CLTask(taskName, taskComplete), tasks));
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            string taskName = "TestTask";
-            bool taskComplete = false;
-
-            tasks.SetData(tasksManager.RemoveTask(new CLTask(taskName, taskComplete), tasks));
-        }
-
         void RefreshTasksListDataGridRows()
         {
             TasksListDataGrid.Rows.Clear();
@@ -66,10 +37,7 @@ namespace CheckList
             {
                 DataGridViewRow edittedRow = TasksListDataGrid.Rows[e.RowIndex];
 
-                bool newTaskStatus = Convert.ToBoolean(edittedRow.Cells["TaskCompleted"].EditedFormattedValue);
-                string taskName = Convert.ToString(edittedRow.Cells["TaskName"].Value);
-
-                tasks.SetData(tasksManager.SetTask(new CLTask(taskName, newTaskStatus), tasks));
+                tasks.SetData(tasksManager.SetTask(GetTaskFromRow(edittedRow), tasks));
 
                 RefreshTasksListDataGridRows();
             }
@@ -84,11 +52,9 @@ namespace CheckList
                 .Cast<DataGridViewRow>()
                 .First();
 
-                bool selectedTaskStatus = Convert.ToBoolean(selectedRow.Cells["TaskCompleted"].EditedFormattedValue);
-                string selectedTaskName = Convert.ToString(selectedRow.Cells["TaskName"].Value);
-                taskToBeRemoved = new CLTask(selectedTaskName, selectedTaskStatus);
+                taskToBeRemoved = GetTaskFromRow(selectedRow);
 
-                this.TaskNameToRemoveL.Text = selectedTaskName;
+                this.TaskNameToRemoveL.Text = taskToBeRemoved.title;
             }
         }
 
@@ -97,6 +63,7 @@ namespace CheckList
             tasks.SetData(tasksManager.RemoveTask(taskToBeRemoved, tasks));
 
             RefreshTasksListDataGridRows();
+            this.TaskNameToRemoveL.Text = "";
         }
 
         private void AddNewTaskB_Click(object sender, EventArgs e)
@@ -107,5 +74,11 @@ namespace CheckList
             RefreshTasksListDataGridRows();
         }
 
+        CLTask GetTaskFromRow (DataGridViewRow row)
+        {
+            bool taskStatus = Convert.ToBoolean(row.Cells["TaskCompleted"].EditedFormattedValue);
+            string taskName = Convert.ToString(row.Cells["TaskName"].Value);
+            return new CLTask(taskName, taskStatus);
+        }
     }
 }

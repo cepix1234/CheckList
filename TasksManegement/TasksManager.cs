@@ -8,9 +8,7 @@ namespace CheckList.TasksManegement
 {
     public class TasksManager
     {
-
         public IDataSourceConfiguration dataSourceConfiguration;
-
         private readonly IDataProviderBase dataProvider;
         private readonly INotificationType notificationService;
         private readonly NotificationConstants notificationConstants;
@@ -60,7 +58,7 @@ namespace CheckList.TasksManegement
 
         private ITaskGroup SetData(IDataSourceConfiguration configuration, ITaskGroup tasks)
         {
-            IDataProividerResultTasksBase result = dataProvider.SetData(configuration, tasks);
+            IDataProividerResultTasksBase result = (IDataProividerResultTasksBase)dataProvider.SetData(configuration, tasks);
             if (!result.sucess)
             {
                 notificationService.Error(notificationConstants.FileWritingTaks("Tasks.json", result.error));
@@ -70,7 +68,7 @@ namespace CheckList.TasksManegement
 
         private ITaskGroup GetData(IDataSourceConfiguration configuration)
         {
-            IDataProividerResultTasksBase result = dataProvider.GetData(configuration);
+            IDataProividerResultTasksBase result = (IDataProividerResultTasksBase)dataProvider.GetData(configuration);
             if (!result.sucess)
             {
                 notificationService.Error(notificationConstants.FileReadError("Tasks.json", result.error));
