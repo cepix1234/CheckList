@@ -26,6 +26,7 @@ namespace CheckList.TaskSpecifics.Class
 
         public void SetData(ITaskGroup data)
         {
+            if(data != null)
             this.tasks = data.tasks;
         }
 
@@ -36,6 +37,20 @@ namespace CheckList.TaskSpecifics.Class
 
         public void AddTask(Task task)
         {
+            // Check if task already exists.
+            bool found = false;
+            foreach (Task tableTask in tasks)
+            {
+                if(tableTask.title == task.title)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if(found)
+            {
+                throw (new Exception("Task already exists"));
+            }
             this.tasks.Add(task);
         }
 
@@ -43,7 +58,7 @@ namespace CheckList.TaskSpecifics.Class
         {
             int index = 0;
             Boolean found = false;
-            foreach (Task tableTask in this.tasks)
+            foreach (Task tableTask in tasks)
             {
                 if (tableTask.title == task.title)
                 {

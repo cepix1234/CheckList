@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CheckList.DataProviders.Interfaces;
 using CheckList.DataProviders.Services;
@@ -10,7 +7,7 @@ using CheckList.Notification.Interfaces;
 using CheckList.Notification.Services;
 using CheckList.Notification.Constants;
 using CheckList.TaskSpecifics.Interface;
-using CheckList.TaskSpecifics.Class;
+using CheckList.TasksManegement;
 
 namespace CheckList
 {
@@ -19,6 +16,8 @@ namespace CheckList
         static IDataProviderBase dataProvider;
         static INotificationType notificationService;
         static NotificationConstants notificationConstants;
+        static TasksManager tasksManager;
+        static DataSourceFileConfiguration FileConfiguration = new DataSourceFileConfiguration("SavedFiles\\Tasks.json");
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -27,12 +26,18 @@ namespace CheckList
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Initialize needed classes.
             dataProvider = InitializeDataprovider();
             notificationService = InitializeNotification();
             notificationConstants = new NotificationConstants();
-            ITaskGroup tasks = InitializeTaskgroup();
+            tasksManager = new TasksManager(new DataSourceConfiguration(FileConfiguration), dataProvider, notificationService, notificationConstants);
 
-            Application.Run(new MainMenu(dataProvider, notificationService, notificationConstants, tasks));
+            // get all tasks.
+            ITaskGroup tasks = tasksManager.GetAllTasks(); ;
+
+            // start the check list view.
+            Application.Run(new CheckListApp(tasksManager, tasks));
         }
 
         static IDataProviderBase InitializeDataprovider()
@@ -63,19 +68,6 @@ namespace CheckList
                     throw new Exception("Not supported notification type!");
             }
             return messageService;
-        }
-
-        static ITaskGroup InitializeTaskgroup()
-        {
-            DataSourceFileConfiguration fileConfiguration = new DataSourceFileConfiguration("SavedFiles\\Tasks.json");
-            IDataSourceConfiguration dataSourceConfiguration = new DataSourceConfiguration(fileConfiguration);
-            dataSourceConfiguration.GetAllTasks = true;
-            IDataProividerResultTasksBase result = dataProvider.GetData(dataSourceConfiguration);
-            if (!result.sucess)
-            {
-                notificationService.Error(notificationConstants.FileReadError("Tasks.json", result.error));
-            }
-            return result.data;
         }
     }
 }

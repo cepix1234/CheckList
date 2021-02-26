@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckList.DataProviders.Interfaces;
-using CheckList.TaskSpecifics.Class;
+using CLTask = CheckList.TaskSpecifics.Class.Task;
 
 namespace CheckList.DataProviders.Services
 {
@@ -16,7 +16,7 @@ namespace CheckList.DataProviders.Services
             this.File = File;
         }
 
-        public DataSourceConfiguration(DataSourceFileConfiguration File, TaskSpecifics.Class.Task Task)
+        public DataSourceConfiguration(DataSourceFileConfiguration File, CLTask Task)
         {
             this.File = File;
             this.Task = Task;
@@ -82,10 +82,21 @@ namespace CheckList.DataProviders.Services
             set;
         }
 
-        public TaskSpecifics.Class.Task Task
+        public CLTask Task
         {
             get;
             set;
+        }
+
+        public void Clear()
+        {
+            this.AddTask = false;
+            this.DeliteTask = false;
+            this.SetTask = false;
+            this.GetTaskByTitle = false;
+            this.GetAllTasks = false;
+            this.GetFinishedTasks = false;
+            this.GetUnfinishedTasks = false;
         }
     }
 }

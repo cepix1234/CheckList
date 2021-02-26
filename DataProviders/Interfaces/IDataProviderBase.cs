@@ -10,6 +10,6 @@ namespace CheckList.DataProviders.Interfaces
     {
         IDataProividerResultTasksBase GetData(IDataSourceConfiguration configuration);
 
-        IDataProividerResultTasksBase SetData(IDataSourceConfiguration configuration, TaskSpecifics.Class.Task data, ITaskGroup tasks);
+        IDataProividerResultTasksBase SetData(IDataSourceConfiguration configuration, ITaskGroup tasks);
     }
 }

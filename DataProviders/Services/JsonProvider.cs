@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CheckList.DataProviders.Interfaces;
-using CheckList.TaskSpecifics;
 using CheckList.TaskSpecifics.Class;
+using CLTask = CheckList.TaskSpecifics.Class.Task;
 using CheckList.TaskSpecifics.Interface;
 using Newtonsoft.Json;
 
@@ -40,7 +36,7 @@ namespace CheckList.DataProviders.Services
             return result;
         }
 
-        public IDataProividerResultTasksBase SetData(IDataSourceConfiguration configuration, TaskSpecifics.Class.Task data, ITaskGroup tasks)
+        public IDataProividerResultTasksBase SetData(IDataSourceConfiguration configuration, ITaskGroup tasks)
         {
             IDataProividerResultTasksBase result = new DataProviderResultTasks();
             if (!configuration.IsValid())
@@ -53,17 +49,17 @@ namespace CheckList.DataProviders.Services
             {
                 if (configuration.AddTask)
                 {
-                    result = AddTaskToTasks(data, tasks);
+                    result = AddTaskToTasks(configuration.Task, tasks);
                 }
 
                 if (configuration.DeliteTask)
                 {
-                    result = RemoveTaskFromTasks(data, tasks);
+                    result = RemoveTaskFromTasks(configuration.Task, tasks);
                 }
 
                 if (configuration.SetTask)
                 {
-                    result = SetTaskStatusInTasks(data, tasks);
+                    result = SetTaskStatusInTasks(configuration.Task, tasks);
                 }
 
 
@@ -78,25 +74,19 @@ namespace CheckList.DataProviders.Services
             }
             return result;
         }
-        private IDataProividerResultTasksBase AddTaskToTasks(TaskSpecifics.Class.Task data, ITaskGroup tasks)
+        private IDataProividerResultTasksBase AddTaskToTasks(CLTask data, ITaskGroup tasks)
         {
             IDataProividerResultTasksBase result = new DataProviderResultTasks();
             ITaskGroup tasksCoppy = tasks.Clone();
-            try
-            {
-                tasksCoppy.AddTask(data);
-                result.data = tasksCoppy;
-                result.sucess = true;
-            }
-            catch (Exception error)
-            {
-                result.sucess = false;
-                result.error = error.Message;
-            }
+
+            tasksCoppy.AddTask(data);
+            result.data = tasksCoppy;
+            result.sucess = true;
+
             return result;
         }
 
-        private IDataProividerResultTasksBase RemoveTaskFromTasks(TaskSpecifics.Class.Task data, ITaskGroup tasks)
+        private IDataProividerResultTasksBase RemoveTaskFromTasks(CLTask data, ITaskGroup tasks)
         {
             IDataProividerResultTasksBase result = new DataProviderResultTasks();
             ITaskGroup tasksCoppy = tasks.Clone();
@@ -114,7 +104,7 @@ namespace CheckList.DataProviders.Services
             return result;
         }
 
-        private IDataProividerResultTasksBase SetTaskStatusInTasks(TaskSpecifics.Class.Task data, ITaskGroup tasks)
+        private IDataProividerResultTasksBase SetTaskStatusInTasks(CLTask data, ITaskGroup tasks)
         {
             IDataProividerResultTasksBase result = new DataProviderResultTasks();
             ITaskGroup tasksCoppy = tasks.Clone();

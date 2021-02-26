@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckList.DataProviders.Services;
-using CheckList.TaskSpecifics.Class;
+using CLTask = CheckList.TaskSpecifics.Class.Task;
 
 namespace CheckList.DataProviders.Interfaces
 {
@@ -60,11 +60,13 @@ namespace CheckList.DataProviders.Interfaces
             set;
         }
 
-        TaskSpecifics.Class.Task Task
+        CLTask Task
         {
             get;
             set;
         }
+
+        void Clear();
 
     }
 }
