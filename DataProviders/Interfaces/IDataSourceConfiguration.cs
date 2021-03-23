@@ -52,6 +52,12 @@ namespace CheckList.DataProviders.Interfaces
             set;
         }
 
+        Boolean getDayFollowd
+        {
+            get;
+            set;
+        }
+
         Boolean IsValid();
 
         DataSourceFileConfiguration File

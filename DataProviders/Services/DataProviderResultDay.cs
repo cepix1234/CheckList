@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckList.DataProviders.Interfaces;
-using CheckList.DayFollower.Interfaces;
+using CheckList.FollowingDays.Interfaces;
 using CheckList.TaskSpecifics.Interface;
 
 namespace CheckList.DataProviders.Services

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CheckList.DayFollower.Interfaces;
+using CheckList.FollowingDays.Interfaces;
 using CheckList.TaskSpecifics.Interface;
 
 namespace CheckList.DataProviders.Interfaces

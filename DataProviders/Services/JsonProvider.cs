@@ -5,8 +5,8 @@ using CheckList.TaskSpecifics.Class;
 using CLTask = CheckList.TaskSpecifics.Class.Task;
 using CheckList.TaskSpecifics.Interface;
 using Newtonsoft.Json;
-using CheckList.DayFollower.Class;
-using CheckList.DayFollower.Interfaces;
+using CheckList.FollowingDays.Class;
+using CheckList.FollowingDays.Interfaces;
 
 namespace CheckList.DataProviders.Services
 {
@@ -14,13 +14,14 @@ namespace CheckList.DataProviders.Services
     {
         public IDataProviderResultBase GetData(IDataSourceConfiguration configuration)
         {
-            // Try and get Tasks
-            IDataProividerResultTasksBase resultTask = getFileData(configuration);
-            if(resultTask.data.tasks == null)
+            if(configuration.getDayFollowd)
             {
                 IDataProividerResultDayBase resultDay = getDayData(configuration);
                 return resultDay;
             }
+
+            // Try and get Tasks
+            IDataProividerResultTasksBase resultTask = getFileData(configuration);
 
             return resultTask;
         }

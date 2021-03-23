@@ -8,7 +8,10 @@ using CheckList.Notification.Services;
 using CheckList.Notification.Constants;
 using CheckList.TaskSpecifics.Interface;
 using CheckList.TasksManegement;
-using CheckList.DayFollower.Class;
+using CheckList.FollowingDays.Class;
+using CheckList.FollowingDays.Services;
+using CheckList.FollowingDays.Interfaces;
+using System.Threading.Tasks;
 
 namespace CheckList
 {
@@ -18,11 +21,12 @@ namespace CheckList
         static INotificationType notificationService;
         static NotificationConstants notificationConstants;
         static TasksManager tasksManager;
+        static DayFollower dayFollower;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static async Task Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -35,6 +39,18 @@ namespace CheckList
 
             // get all tasks.
             ITaskGroup tasks = tasksManager.GetAllTasks();
+
+            //Get current date and save if its new day.
+            dayFollower = InitializeDayFollower(dataProvider);
+            await dayFollower.SetNewDay();
+
+            //! Change
+            var timer = new System.Threading.Timer(
+                async e => await dayFollower.SetNewDay(),
+                null,
+                TimeSpan.Zero,
+                TimeSpan.FromMinutes(30));
+
 
             // start the check list view.
             Application.Run(new CheckListApp(tasksManager, tasks));
@@ -82,6 +98,19 @@ namespace CheckList
                     throw new Exception("Not supported notification type!");
             }
             return messageService;
+        }
+
+        static DayFollower InitializeDayFollower(IDataProviderBase dataProvider)
+        {
+            string folderName = ConfigurationManager.AppSettings.Get("FileFolder");
+            string dayFollowingFile = ConfigurationManager.AppSettings.Get("DayCoveredFileName");
+
+            IDataSourceConfiguration dataSourceConfiguration = new DataSourceConfiguration(new DataSourceFileConfiguration($"{folderName}\\{dayFollowingFile}"));
+            dataSourceConfiguration.getDayFollowd = true;
+
+            IDataProividerResultDayBase dayFollowed = (IDataProividerResultDayBase)dataProvider.GetData(dataSourceConfiguration);
+
+            return new DayFollower(dayFollowed.data, dataProvider, dataSourceConfiguration);
         }
     }
 }

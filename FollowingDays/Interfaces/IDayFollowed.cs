@@ -4,11 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckList.DayFollower.Interfaces
+namespace CheckList.FollowingDays.Interfaces
 {
     public interface IDayFollowed
     {
         DateTime Date
+        {
+            get;
+            set;
+        }
+
+        DateTime datetime
         {
             get;
             set;

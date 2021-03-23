@@ -61,9 +61,10 @@
     <Compile Include="DataProviders\Services\DataSourceConfiguration.cs" />
     <Compile Include="DataProviders\Services\DataSourceFileConfiguration.cs" />
     <Compile Include="DataProviders\Services\JsonProvider.cs" />
-    <Compile Include="DayFollower\Class\DayFollowed.cs" />
-    <Compile Include="DayFollower\Interfaces\IDayFollowed.cs" />
-    <Compile Include="DayFollower\Services\DayFollower.cs" />
+    <Compile Include="FollowingDays\Class\DayFollowed.cs" />
+    <Compile Include="FollowingDays\Interfaces\IDayFollower.cs" />
+    <Compile Include="FollowingDays\Interfaces\IDayFollowed.cs" />
+    <Compile Include="FollowingDays\Services\DayFollower.cs" />
     <Compile Include="Forms\CheckListApp.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -63,6 +63,11 @@ namespace CheckList.DataProviders.Services
 
         public bool IsValid()
         {
+            if(this.getDayFollowd && !(this.AddTask ^ this.DeliteTask ^ this.SetTask ^ this.GetTaskByTitle ^ this.GetAllTasks ^ this.GetFinishedTasks ^ this.GetUnfinishedTasks))
+            {
+                return true;
+            }
+
             if (!(this.AddTask ^ this.DeliteTask ^ this.SetTask ^ this.GetTaskByTitle ^ this.GetAllTasks ^ this.GetFinishedTasks ^ this.GetUnfinishedTasks))
             {
                 return false;
@@ -84,6 +89,11 @@ namespace CheckList.DataProviders.Services
 
         public CLTask Task
         {
+            get;
+            set;
+        }
+        public bool getDayFollowd 
+        { 
             get;
             set;
         }
